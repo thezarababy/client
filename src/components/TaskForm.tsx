@@ -23,6 +23,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ onAddTask, onCancel }) => {
       title,
       description,
       dueDate,
+      duration
       completed: false, // default value
     };
 
@@ -53,6 +54,13 @@ const TaskForm: React.FC<TaskFormProps> = ({ onAddTask, onCancel }) => {
         onChange={(e) => setDescription(e.target.value)}
         className="w-full p-2 mb-2 border rounded"
       ></textarea>
+      <input
+  type="text"
+  placeholder="Duration (e.g., 2h, 30m)"
+  value={duration}
+  onChange={(e) => setDuration(e.target.value)}
+  className="w-full p-2 mb-2 border rounded"
+/>
 
       <input
         type="date"

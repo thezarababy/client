@@ -3,5 +3,6 @@ export interface Task {
   title: String;
   description: String;
   dueDate: String;
+  duration: String;
   completed: boolean;
 }
