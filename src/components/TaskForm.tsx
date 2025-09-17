@@ -1,4 +1,4 @@
-import { useState, useEffect, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import type { Task } from "../types/task";
 import { v4 as uuidv4 } from "uuid";
 
