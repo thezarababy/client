@@ -4,32 +4,35 @@ import { v4 as uuidv4 } from "uuid";
 
 interface TaskFormProps {
   onAddTask: (task: Task) => void;
+  onCancel?: () => void; // Optional prop for cancel button
 }
-const TaskForm: React.FC<TaskFormProps> = ({ onAddTask }) => {
-  //local state for each input fields
+
+const TaskForm: React.FC<TaskFormProps> = ({ onAddTask, onCancel }) => {
+  // Local state for each input field
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [dueDate, setDueDate] = useState("");
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+
+    if (!title.trim()) return; // prevents empty title
+
+    const newTask: Task = {
+      id: uuidv4(), // unique id
+      title,
+      description,
+      dueDate,
+      completed: false, // default value
+    };
+
+    onAddTask(newTask); // send task to App.tsx
+
+    // Reset form fields
+    setTitle("");
+    setDescription("");
+    setDueDate("");
   };
-  if (!title.trim()) return; // prevents empty title
-
-  const newTask: Task = {
-    id: uuidv4(), //unique id
-    title,
-    description,
-    dueDate,
-    completed: false, //default value
-  };
-
-  onAddTask(newTask); //send task to App.tsx
-
-  //reset the form fields
-  setTitle("");
-  setDescription("");
-  setDueDate("");
 
   return (
     <form
@@ -41,6 +44,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ onAddTask }) => {
         placeholder="Task Title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
+        className="w-full p-2 mb-2 border rounded"
       />
 
       <textarea
@@ -57,12 +61,24 @@ const TaskForm: React.FC<TaskFormProps> = ({ onAddTask }) => {
         className="w-full p-2 mb-2 border rounded"
       />
 
-      <button
-        type="submit"
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-      >
-        Add Task
-      </button>
+      <div className="flex gap-2">
+        <button
+          type="submit"
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        >
+          Add Task
+        </button>
+
+        {onCancel && (
+          <button
+            type="button"
+            onClick={onCancel}
+            className="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500"
+          >
+            Cancel
+          </button>
+        )}
+      </div>
     </form>
   );
 };
